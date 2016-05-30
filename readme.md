@@ -1,4 +1,4 @@
-该脚本是综合[puma-jungle]()和[niwo/puma](https://gist.github.com/niwo/4526179)两个脚本后、加上自己的实际试验做出的整理。主要目的是简化CentOS下nginx+puma组合的启动配置。
+该脚本是综合[puma-jungle]()和[niwo/puma](https://gist.github.com/niwo/4526179)两个脚本后、加上自己的试验结果做出的整理。主要目的是简化CentOS下nginx+puma组合的启动配置。
 
 该脚本在CentOS 6.5(64 bit) + rbenv(v1.0.0) + Ruby(v2.3.1) + Puma(v3.4) + Nginx(1.0.15)下验证通过。
 
