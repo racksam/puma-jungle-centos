@@ -1,8 +1,8 @@
-该脚本是针对[puma-jungle]()和[niwo/puma](https://gist.github.com/niwo/4526179)两个脚本的综合、以及根据我的经验做出的整理。主要目的是简化CentOS下nginx+puma组合的启动配置。
+该脚本是综合[puma-jungle]()和[niwo/puma](https://gist.github.com/niwo/4526179)两个脚本后、加上自己的实际试验做出的整理。主要目的是简化CentOS下nginx+puma组合的启动配置。
 
 该脚本在CentOS 6.5(64 bit) + rbenv(v1.0.0) + Ruby(v2.3.1) + Puma(v3.4) + Nginx(1.0.15)下验证通过。
 
-*完整的CentOS配置过程，请参照[Centos6 下安装rbenv + ruby + rails + puma + ngnix](http://www.racksam.com/2016/03/01/install-rbenv-ruby-rails-nginx-puma-on-centos6)*
+*完整的CentOS服务器设置过程:  [Centos6 下安装rbenv + ruby + rails + puma + ngnix](http://www.racksam.com/2016/03/01/install-rbenv-ruby-rails-nginx-puma-on-centos6)*
 
 *注：该脚本并非是运行puma项目必须要设置的。用户完全可以针对单个puma项目自行编写一个Linux服务启动脚本*
 
@@ -10,7 +10,7 @@
 ======
 Installation
 ------------
-1. 将脚本clone到CentOS本地用户目录下，例如deploy用户目录：
+1. 将本脚本clone到CentOS本地用户目录下，例如deploy用户目录：
 
   ```
   $ cd /home/deploy
@@ -49,7 +49,7 @@ Installation
   $ sudo cp ./etc/nginx/conf.d/demo_site.conf /etc/nginx/conf.d/my_app.conf
   $ sudo vi /etc/nginx/conf.d/my_app.conf
   ```
-7. *建议将nginx的运行用户改成和puma的运行用户相同*
+7. *【可选】建议将nginx的运行用户改成和puma的运行用户相同*
 
   修改`/etc/nginx/nginx.conf`文件，例如将user修改成`deploy`
 8. 将puma及ngnix设置成自动启动
