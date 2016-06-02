@@ -7,7 +7,7 @@
 #               goes here...
 # processname:  puma
 # config:       /etc/puma.conf
-# pidfile:      /home/stanislaw/apps/micro-apps/puma/puma.pid
+# pidfile:      /home/stanislaw/apps/micro-apps/pids/puma.pid
  
 # Author: Darío Javier Cravero &lt;dario@exordo.com>
 #
@@ -56,9 +56,9 @@ log_end_msg() { [ $1 -eq 0 ] && RES=OK; logger ${RES:=FAIL}; }
 cleanup() {
   echo "Cleaning up puma temporary files..."
   echo $1;
-  PIDFILE=$1/tmp/puma/puma.pid
-  STATEFILE=$1/tmp/puma/puma.state
-  SOCKFILE=$1/tmp/puma/puma.sock
+  PIDFILE=$1/tmp/pids/puma.pid
+  STATEFILE=$1/tmp/pids/puma.state
+  SOCKFILE=$1/tmp/sockets/puma.socket
   rm -f $PIDFILE $STATEFILE $SOCKFILE
 }
  
@@ -76,14 +76,14 @@ do_start() {
     fi
     log_file=`echo $i | cut -d , -f 4`
     if [ "$log_file" = "" ]; then
-      log_file="$dir/puma/puma.log"
+      log_file="$dir/log/puma.log"
     fi
     do_start_one $dir $user $config_file $log_file
   done
 }
  
 do_start_one() {
-  PIDFILE=$1/puma/puma.pid
+  PIDFILE=$1/pids/puma.pid
   if [ -e $PIDFILE ]; then
     PID=`cat $PIDFILE`
     # If the puma isn't running, run it, otherwise restart it.
@@ -120,8 +120,8 @@ do_stop() {
 #
 do_stop_one() {
   log_daemon_msg "--> Stopping $1"
-  PIDFILE=$1/tmp/puma/puma.pid
-  STATEFILE=$1/tmp/puma/puma.state
+  PIDFILE=$1/tmp/pids/puma.pid
+  STATEFILE=$1/tmp/pids/puma.state
  
   echo $PIDFILE
  
@@ -158,13 +158,13 @@ do_restart() {
 # Function that sends a SIGUSR2 to the daemon/service
 #
 do_restart_one() {
-  PIDFILE=$1/tmp/puma/puma.pid
+  PIDFILE=$1/tmp/pids/puma.pid
   i=`grep $1 $CONFIG`
   dir=`echo $i | cut -d , -f 1`
  
   if [ -e $PIDFILE ]; then
     log_daemon_msg "--> About to restart puma $1"
-    # pumactl --state $dir/tmp/puma/state restart
+    # pumactl --state $dir/pids/state restart
     kill -s USR2 `cat $PIDFILE`
     # TODO Check if process exist
   else
@@ -197,13 +197,13 @@ do_status() {
 # Function that sends a SIGUSR2 to the daemon/service
 #
 do_status_one() {
-  PIDFILE=$1/tmp/puma/pid
+  PIDFILE=$1/tmp/pids/pid
   i=`grep $1 $CONFIG`
   dir=`echo $i | cut -d , -f 1`
  
   if [ -e $PIDFILE ]; then
     log_daemon_msg "--> About to status puma $1"
-    pumactl --state $dir/tmp/puma/state stats
+    pumactl --state $dir/tmp/pids/state stats
     # kill -s USR2 `cat $PIDFILE`
     # TODO Check if process exist
   else
